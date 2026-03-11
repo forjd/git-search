@@ -42,6 +42,12 @@ Run inside any git repository:
 # Launch the search TUI (indexes on first run)
 git-search
 
+# Search from the command line (no TUI)
+git-search search "auth login flow"
+
+# Limit results and get JSON output
+git-search search "database migration" --limit 5 --json
+
 # Force a full re-index
 git-search reindex
 
@@ -92,6 +98,7 @@ src/
 
   search/
     search.ts        Query embedding + KNN search
+    format.ts        CLI output formatting (text + JSON)
 
   views/
     indexing-screen  Progress bar during indexing

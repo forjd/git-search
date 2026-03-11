@@ -4,7 +4,9 @@ import { App } from "./app.ts";
 import { openDatabase } from "./db/database.ts";
 import { getCommitCount, getEmbeddingCount } from "./db/queries.ts";
 import { getGitRoot, getTotalCommitCount } from "./indexer/git.ts";
-import { reindex } from "./indexer/indexer.ts";
+import { reindex, runIndex } from "./indexer/indexer.ts";
+import { formatSearchResults } from "./search/format.ts";
+import { search } from "./search/search.ts";
 
 const command = process.argv[2];
 
@@ -51,9 +53,39 @@ async function main(): Promise<void> {
     return;
   }
 
+  if (command === "search") {
+    const query = process.argv.slice(3).join(" ");
+    if (!query) {
+      console.error("Usage: git-search search <query>");
+      process.exit(1);
+    }
+
+    const db = openDatabase(repoRoot);
+    const embedded = getEmbeddingCount(db);
+    if (embedded === 0) {
+      console.error("Index is empty. Run `git-search reindex` first.");
+      db.close();
+      process.exit(1);
+    }
+
+    await runIndex(db, (progress) => {
+      if (progress.total > 0) {
+        const pct = Math.round((progress.current / progress.total) * 100);
+        process.stderr.write(
+          `\r${progress.phase}: ${progress.current}/${progress.total} (${pct}%)`,
+        );
+      }
+    });
+
+    const results = await search(db, query);
+    console.log(formatSearchResults(results));
+    db.close();
+    return;
+  }
+
   if (command && command !== "--help") {
     console.error(`Unknown command: ${command}`);
-    console.error("Usage: git-search [reindex|status]");
+    console.error("Usage: git-search [search|reindex|status]");
     process.exit(1);
   }
 
@@ -62,6 +94,7 @@ async function main(): Promise<void> {
     console.log("");
     console.log("Commands:");
     console.log("  (none)     Launch search TUI (indexes if needed)");
+    console.log("  search     Search commits (e.g. git-search search auth flow)");
     console.log("  reindex    Force full re-index");
     console.log("  status     Show index statistics");
     console.log("  --help     Show this help");

@@ -1,11 +1,30 @@
 {
-  "name": "git-search",
+  "name": "@forjd/git-search",
   "version": "1.0.0",
+  "description": "Semantic search over git commit history — local embeddings, sqlite-vec, terminal UI",
   "module": "src/index.ts",
   "type": "module",
   "bin": {
     "git-search": "src/index.ts"
   },
+  "files": [
+    "src/**/*.ts",
+    "!src/**/*.test.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/forjd/git-search.git"
+  },
+  "keywords": [
+    "git",
+    "search",
+    "semantic-search",
+    "tui",
+    "embeddings",
+    "sqlite",
+    "vector-search",
+    "cli"
+  ],
   "scripts": {
     "dev": "bun run src/index.ts",
     "test": "bun test",

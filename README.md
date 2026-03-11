@@ -25,13 +25,13 @@ The index lives in `.git-search/` inside your repo and updates incrementally on 
 ## Install
 
 ```bash
-bun install -g git-search
+bun install -g @forjd/git-search
 ```
 
 Or run directly:
 
 ```bash
-bunx git-search
+bunx @forjd/git-search
 ```
 
 ## Usage

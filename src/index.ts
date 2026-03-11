@@ -71,15 +71,11 @@ async function main(): Promise<void> {
     }
 
     const query = args
-      .filter(
-        (a, i) => a !== "--json" && a !== "--limit" && i !== limitIdx + 1,
-      )
+      .filter((a, i) => a !== "--json" && a !== "--limit" && i !== limitIdx + 1)
       .join(" ");
 
     if (!query) {
-      console.error(
-        "Usage: git-search search <query> [--limit N] [--json]",
-      );
+      console.error("Usage: git-search search <query> [--limit N] [--json]");
       process.exit(1);
     }
 

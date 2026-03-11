@@ -14,7 +14,8 @@ const result1: SearchResult = {
 
 const result2: SearchResult = {
   hash: "def9876543210fedcba9876543210fedcba987654",
-  message: "fix: resolve login bug\n\nThis fixes the issue where users\ncould not log in with SSO.",
+  message:
+    "fix: resolve login bug\n\nThis fixes the issue where users\ncould not log in with SSO.",
   author_name: "Bob",
   author_email: "bob@example.com",
   date: 1700100000,

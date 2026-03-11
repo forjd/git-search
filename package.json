@@ -1,10 +1,10 @@
 {
-  "name": "forjd-git-search",
+  "name": "git-search",
   "version": "0.1.0",
   "module": "src/index.ts",
   "type": "module",
   "bin": {
-    "forjd-git-search": "src/index.ts"
+    "git-search": "src/index.ts"
   },
   "scripts": {
     "dev": "bun run src/index.ts",

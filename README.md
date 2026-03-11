@@ -16,13 +16,13 @@ The index lives in `.git-search/` inside your repo and updates incrementally on 
 ## Install
 
 ```bash
-bun install -g forjd-git-search
+bun install -g git-search
 ```
 
 Or run directly:
 
 ```bash
-bunx forjd-git-search
+bunx git-search
 ```
 
 ## Usage
@@ -31,13 +31,13 @@ Run inside any git repository:
 
 ```bash
 # Launch the search TUI (indexes on first run)
-forjd-git-search
+git-search
 
 # Force a full re-index
-forjd-git-search reindex
+git-search reindex
 
 # Show index statistics
-forjd-git-search status
+git-search status
 ```
 
 ### Keyboard shortcuts

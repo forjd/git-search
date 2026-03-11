@@ -34,7 +34,7 @@ export class IndexingScreen {
     });
 
     this.titleText = new TextRenderable(ctx, {
-      content: t`${bold("forjd-git-search")}`,
+      content: t`${bold("git-search")}`,
     });
 
     this.phaseText = new TextRenderable(ctx, {

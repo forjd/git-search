@@ -1,10 +1,14 @@
 {
   "name": "forjd-git-search",
-  "module": "src/index.tsx",
+  "version": "0.1.0",
+  "module": "src/index.ts",
   "type": "module",
-  "private": true,
+  "bin": {
+    "forjd-git-search": "src/index.ts"
+  },
   "scripts": {
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run src/index.ts",
+    "test": "bun test"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -13,6 +17,8 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@opentui/core": "^0.1.87"
+    "@huggingface/transformers": "^3.5.1",
+    "@opentui/core": "^0.1.87",
+    "sqlite-vec": "^0.1.6"
   }
 }

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/forjd/git-search/compare/git-search-v1.1.0...git-search-v1.1.1) (2026-03-11)
+
+
+### Bug Fixes
+
+* add release environment to publish job for npm trusted publisher ([69e85f5](https://github.com/forjd/git-search/commit/69e85f5f70ef66fcbf2c3afe1b61d931e7c20139))
+
 ## [1.1.0](https://github.com/forjd/git-search/compare/git-search-v1.0.0...git-search-v1.1.0) (2026-03-11)
 
 

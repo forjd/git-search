@@ -1,6 +1,7 @@
 # git-search
 
 [![CI](https://github.com/forjd/git-search/actions/workflows/ci.yml/badge.svg)](https://github.com/forjd/git-search/actions/workflows/ci.yml)
+[![Release](https://github.com/forjd/git-search/actions/workflows/release.yml/badge.svg)](https://github.com/forjd/git-search/actions/workflows/release.yml)
 [![Bun](https://img.shields.io/badge/runtime-Bun-f9f1e1?logo=bun&logoColor=000)](https://bun.sh)
 [![SQLite](https://img.shields.io/badge/storage-SQLite-003B57?logo=sqlite&logoColor=fff)](https://www.sqlite.org)
 [![Transformers.js](https://img.shields.io/badge/embeddings-Transformers.js-FFD21E?logo=huggingface&logoColor=000)](https://huggingface.co/docs/transformers.js)

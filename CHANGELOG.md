@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/forjd/git-search/compare/git-search-v1.1.2...git-search-v1.1.3) (2026-03-11)
+
+
+### Bug Fixes
+
+* upgrade npm to latest for trusted publisher OIDC support ([ad9df61](https://github.com/forjd/git-search/commit/ad9df61b0505cd86ffc81de0ba47fb740673c1b2))
+
 ## [1.1.2](https://github.com/forjd/git-search/compare/git-search-v1.1.1...git-search-v1.1.2) (2026-03-11)
 
 

@@ -14,3 +14,8 @@ export function formatSearchResults(results: SearchResult[]): string {
     })
     .join("\n");
 }
+
+export function formatSearchResultsJson(results: SearchResult[]): string {
+  const output = results.map(({ parents: _, ...r }) => r);
+  return JSON.stringify(output, null, 2);
+}

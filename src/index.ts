@@ -5,7 +5,10 @@ import { openDatabase } from "./db/database.ts";
 import { getCommitCount, getEmbeddingCount } from "./db/queries.ts";
 import { getGitRoot, getTotalCommitCount } from "./indexer/git.ts";
 import { reindex, runIndex } from "./indexer/indexer.ts";
-import { formatSearchResults } from "./search/format.ts";
+import {
+  formatSearchResults,
+  formatSearchResultsJson,
+} from "./search/format.ts";
 import { search } from "./search/search.ts";
 
 const command = process.argv[2];
@@ -54,9 +57,29 @@ async function main(): Promise<void> {
   }
 
   if (command === "search") {
-    const query = process.argv.slice(3).join(" ");
+    const args = process.argv.slice(3);
+    const jsonFlag = args.includes("--json");
+    let limit = 20;
+    const limitIdx = args.indexOf("--limit");
+    if (limitIdx !== -1) {
+      const val = Number(args[limitIdx + 1]);
+      if (!Number.isFinite(val) || val < 1) {
+        console.error("Error: --limit requires a positive number");
+        process.exit(1);
+      }
+      limit = val;
+    }
+
+    const query = args
+      .filter(
+        (a, i) => a !== "--json" && a !== "--limit" && i !== limitIdx + 1,
+      )
+      .join(" ");
+
     if (!query) {
-      console.error("Usage: git-search search <query>");
+      console.error(
+        "Usage: git-search search <query> [--limit N] [--json]",
+      );
       process.exit(1);
     }
 
@@ -77,8 +100,12 @@ async function main(): Promise<void> {
       }
     });
 
-    const results = await search(db, query);
-    console.log(formatSearchResults(results));
+    const results = await search(db, query, limit);
+    console.log(
+      jsonFlag
+        ? formatSearchResultsJson(results)
+        : formatSearchResults(results),
+    );
     db.close();
     return;
   }
@@ -94,7 +121,9 @@ async function main(): Promise<void> {
     console.log("");
     console.log("Commands:");
     console.log("  (none)     Launch search TUI (indexes if needed)");
-    console.log("  search     Search commits (e.g. git-search search auth flow)");
+    console.log(
+      "  search     Search commits (e.g. git-search search auth flow --limit 10 --json)",
+    );
     console.log("  reindex    Force full re-index");
     console.log("  status     Show index statistics");
     console.log("  --help     Show this help");

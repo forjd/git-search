@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { SearchResult } from "../db/queries.ts";
-import { formatSearchResults } from "./format.ts";
+import { formatSearchResults, formatSearchResultsJson } from "./format.ts";
 
 const result1: SearchResult = {
   hash: "abc1234567890abcdef1234567890abcdef123456",
@@ -52,5 +52,33 @@ describe("formatSearchResults", () => {
     const output = formatSearchResults([result1]);
     // 1700000000 = 2023-11-14
     expect(output).toContain("2023");
+  });
+});
+
+describe("formatSearchResultsJson", () => {
+  test("returns empty array for no results", () => {
+    const parsed = JSON.parse(formatSearchResultsJson([]));
+    expect(parsed).toEqual([]);
+  });
+
+  test("includes all fields", () => {
+    const parsed = JSON.parse(formatSearchResultsJson([result1]));
+    expect(parsed).toHaveLength(1);
+    expect(parsed[0].hash).toBe(result1.hash);
+    expect(parsed[0].message).toBe(result1.message);
+    expect(parsed[0].author_name).toBe(result1.author_name);
+    expect(parsed[0].author_email).toBe(result1.author_email);
+    expect(parsed[0].date).toBe(result1.date);
+    expect(parsed[0].distance).toBe(result1.distance);
+  });
+
+  test("outputs valid JSON for multiple results", () => {
+    const parsed = JSON.parse(formatSearchResultsJson([result1, result2]));
+    expect(parsed).toHaveLength(2);
+  });
+
+  test("excludes parents field", () => {
+    const parsed = JSON.parse(formatSearchResultsJson([result1]));
+    expect(parsed[0]).not.toHaveProperty("parents");
   });
 });

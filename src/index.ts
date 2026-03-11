@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { parseArgs } from "node:util";
 import { createCliRenderer } from "@opentui/core";
 import { App } from "./app.ts";
 import { openDatabase } from "./db/database.ts";
@@ -11,9 +12,32 @@ import {
 } from "./search/format.ts";
 import { search } from "./search/search.ts";
 
-const command = process.argv[2];
+const { values: globalOpts, positionals } = parseArgs({
+  args: process.argv.slice(2),
+  options: {
+    help: { type: "boolean", default: false },
+  },
+  allowPositionals: true,
+  strict: false,
+});
+
+const command = positionals[0];
 
 async function main(): Promise<void> {
+  if (globalOpts.help && !command) {
+    console.log("Usage: git-search [command]");
+    console.log("");
+    console.log("Commands:");
+    console.log("  (none)     Launch search TUI (indexes if needed)");
+    console.log(
+      "  search     Search commits (e.g. git-search search auth flow --limit 10 --json)",
+    );
+    console.log("  reindex    Force full re-index");
+    console.log("  status     Show index statistics");
+    console.log("  --help     Show this help");
+    return;
+  }
+
   const repoRoot = await getGitRoot();
   if (!repoRoot) {
     console.error("Error: not a git repository (or any parent up to /)");
@@ -57,12 +81,18 @@ async function main(): Promise<void> {
   }
 
   if (command === "search") {
-    const args = process.argv.slice(3);
-    const jsonFlag = args.includes("--json");
+    const { values: searchOpts, positionals: searchPositionals } = parseArgs({
+      args: process.argv.slice(3),
+      options: {
+        json: { type: "boolean", default: false },
+        limit: { type: "string" },
+      },
+      allowPositionals: true,
+    });
+
     let limit = 20;
-    const limitIdx = args.indexOf("--limit");
-    if (limitIdx !== -1) {
-      const val = Number(args[limitIdx + 1]);
+    if (searchOpts.limit !== undefined) {
+      const val = Number(searchOpts.limit);
       if (!Number.isFinite(val) || val < 1) {
         console.error("Error: --limit requires a positive number");
         process.exit(1);
@@ -70,9 +100,7 @@ async function main(): Promise<void> {
       limit = val;
     }
 
-    const query = args
-      .filter((a, i) => a !== "--json" && a !== "--limit" && i !== limitIdx + 1)
-      .join(" ");
+    const query = searchPositionals.join(" ");
 
     if (!query) {
       console.error("Usage: git-search search <query> [--limit N] [--json]");
@@ -98,7 +126,7 @@ async function main(): Promise<void> {
 
     const results = await search(db, query, limit);
     console.log(
-      jsonFlag
+      searchOpts.json
         ? formatSearchResultsJson(results)
         : formatSearchResults(results),
     );
@@ -106,24 +134,10 @@ async function main(): Promise<void> {
     return;
   }
 
-  if (command && command !== "--help") {
+  if (command) {
     console.error(`Unknown command: ${command}`);
     console.error("Usage: git-search [search|reindex|status]");
     process.exit(1);
-  }
-
-  if (command === "--help") {
-    console.log("Usage: git-search [command]");
-    console.log("");
-    console.log("Commands:");
-    console.log("  (none)     Launch search TUI (indexes if needed)");
-    console.log(
-      "  search     Search commits (e.g. git-search search auth flow --limit 10 --json)",
-    );
-    console.log("  reindex    Force full re-index");
-    console.log("  status     Show index statistics");
-    console.log("  --help     Show this help");
-    return;
   }
 
   // Default: launch TUI

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/forjd/git-search/compare/git-search-v1.1.1...git-search-v1.1.2) (2026-03-11)
+
+
+### Bug Fixes
+
+* remove registry-url to allow npm OIDC auth for trusted publisher ([65d8578](https://github.com/forjd/git-search/commit/65d85785188330e98d00338928057ac779dc4adc))
+
 ## [1.1.1](https://github.com/forjd/git-search/compare/git-search-v1.1.0...git-search-v1.1.1) (2026-03-11)
 
 

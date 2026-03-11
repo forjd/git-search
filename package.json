@@ -1,6 +1,6 @@
 {
   "name": "@forjd/git-search",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Semantic search over git commit history — local embeddings, sqlite-vec, terminal UI",
   "module": "src/index.ts",
   "type": "module",

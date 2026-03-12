@@ -15,6 +15,7 @@
     "type": "git",
     "url": "https://github.com/forjd/git-search.git"
   },
+  "license": "MIT",
   "keywords": [
     "git",
     "search",

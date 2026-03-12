@@ -7,7 +7,7 @@
 [![Transformers.js](https://img.shields.io/badge/embeddings-Transformers.js-FFD21E?logo=huggingface&logoColor=000)](https://huggingface.co/docs/transformers.js)
 [![Biome](https://img.shields.io/badge/linter-Biome-60a5fa?logo=biome&logoColor=fff)](https://biomejs.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org)
-[![License](https://img.shields.io/badge/licence-private-red)]()
+[![License: MIT](https://img.shields.io/badge/licence-MIT-green.svg)](LICENSE)
 
 Semantic search over your git commit history, right in the terminal.
 
@@ -110,4 +110,4 @@ src/
 
 ## Licence
 
-Private — internal use only.
+[MIT](LICENSE) — Copyright (c) 2025 Forjd
